@@ -1,0 +1,108 @@
+body{
+    min-width: 700px;
+    height: 100%;
+}
+
+td {
+    padding-right: 10px;
+    padding-bottom: 15px;
+    vertical-align: top;
+}
+th{
+    text-align: center;
+}
+textarea{
+    width: 100%;
+}
+
+#mainContent{
+    margin: auto;
+    max-width: 1300px;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 730px;
+}
+#mainPanel{
+    min-height: 750px;
+}
+
+/*#sidebar{
+    width: 210px;
+    height: 100%;
+    padding-right: 30px;
+    vertical-align: top;
+    border: 0px;
+    border-right: 1px;
+    border-color: black;
+     border-style: solid;
+}*/
+#suttaPane{
+    height:80vh;
+}
+#searchBar{
+    font-size: 32px;
+    margin: 0;
+}
+#searchBar > input{
+    text-align: center;
+}
+
+.valign{
+    vertical-align: middle;
+}
+.text-size-20{
+    font-size: 20px;
+}
+
+.scroll{
+    overflow: auto;
+}
+.fixAtTop{
+    position: fixed;
+    top: 0;
+}
+.topAlign{
+    vertical-align: top;
+}
+.topMargin{
+    margin-top: 30px;
+}
+.editButton{
+    width: 10px;
+}
+.wide{
+    width:100%;
+}
+.tall{
+    height: 100%;
+}
+.left{
+    text-align: left;
+}
+.center{
+    text-align: center;
+}
+
+.tagPadding{
+    padding-right: 7px;
+}
+
+.panel > .panel-heading {
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+
+}
+
+td > #suttaPane{
+    margin-left: 30px;
+
+}
+
+.panel{
+    border: 0px;
+}
+
+.panel-group {
+    margin: 0px;
+}

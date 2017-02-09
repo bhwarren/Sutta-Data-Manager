@@ -1,0 +1,15 @@
+<div>
+
+    <form name="myForm">
+        <md-input-container id="searchBar" class="md-block"  layout-align="center" >
+            <input type="text" name="input" ng-model="searchOpts.value" required ng-trim="true" />
+        </md-input-container>
+
+        <span class="text-size-20 valign">Search: </span>
+        <md-button class="md-raised" ng-click="search('tag')"> Tags </md-button>
+        <md-button class="md-raised" ng-click="search('sutta')"> Sutta Title or Number </md-button>
+        <md-button class="md-raised" ng-click="search('description')"> Descriptions </md-button>
+        <md-button class="md-raised" ng-click="search('similie')"> Similies </md-button>
+    </form>
+
+</div>

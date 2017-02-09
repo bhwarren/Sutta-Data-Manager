@@ -1,0 +1,6 @@
+recently edited page
+finish search
+make sutta picker better
+allow all urls to be displayed
+load urls back into the db
+

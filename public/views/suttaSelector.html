@@ -1,0 +1,102 @@
+<div>
+
+    <div layout="row" flex>
+        <div flex>
+            <h3>Digha Nikaya</h3>
+            <br />
+
+            <div ng-repeat="a in range(2) track by $index" show-gt-md class="panel-group" id="dnAccordionMain{{$index}}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#dnAccordionMain{{$index}}" data-target="#dnNikayaMain{{$index}}">Suttas {{$index*17+1}}-{{($index+1)*17}}</a>
+                          </h4>
+                    </div>
+                    <div id="dnNikayaMain{{$index}}" class="panel-collapse collapse">
+                        <div ng-init="suttaNum = $parent.$index*17+$index+1" ng-repeat="b in range(17) track by $index">
+                            <a href="#sutta?id=DN:{{suttaNum}}">DN {{suttaNum}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div flex>
+            <h3>Majjima Nikaya</h3>
+            <br />
+
+            <div ng-repeat="a in range(5) track by $index" show-gt-md class="panel-group" id="mnAccordionMain{{$index}}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a ng-if="$index < 4" data-toggle="collapse" data-parent="#mnAccordionMain{{$index}}" data-target="#mnNikayaMain{{$index}}">Suttas {{$index*30+1}}-{{($index+1)*30}}</a>
+                            <a ng-if="$index == 4" data-toggle="collapse" data-parent="#mnAccordionMain{{$index}}" data-target="#mnNikayaMain{{$index}}">Suttas {{$index*30+1}}-{{($index+1)*30+2}}</a>
+                          </h4>
+                    </div>
+                    <div id="mnNikayaMain{{$index}}" class="panel-collapse collapse">
+                        <div ng-repeat="b in range(30) track by $index">
+                            <a href="#sutta?id={{getSutta(($parent.$index)*30+$index+1, 'MN', true)}}">{{getSutta(($parent.$index)*30+$index+1, "MN")}}</a>
+                        </div>
+                        <div ng-if="$index == 4">
+                            <div> <a href="#sutta?id={{getSutta(151, 'MN', true)}}">{{getSutta(151, "MN")}}</a> </div>
+                            <div> <a href="#sutta?id={{getSutta(152, 'MN', true)}}">{{getSutta(152, "MN")}}</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div flex>
+            <h3>Samyutta Nikaya</h3>
+            <br />
+
+            <div ng-repeat="a in range(2) track by $index" show-gt-md class="panel-group" id="snAccordionMain{{$index}}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#snAccordionMain{{$index}}" data-target="#snNikayaMain{{$index}}">Books {{$index*28+1}} - {{($index+1)*28}}</a>
+                          </h4>
+                    </div>
+                    <div id="snNikayaMain{{$index}}" class="panel-collapse collapse">
+                        <div ng-repeat="b in range(28) track by $index">
+                            <div ng-init="bookNum = $parent.$index*28+($index+1)" show-gt-md class="panel-group" id="snAccordionBook{{bookNum}}">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#snAccordionBook{{bookNum}}" data-target="#snNikayaBook{{bookNum}}">Book {{bookNum}}</a>
+                                          </h4>
+                                    </div>
+                                    <div id="snNikayaBook{{bookNum}}" class="panel-collapse collapse">
+                                        <div ng-repeat="b in range(collections.SN.books[bookNum-1].numSuttas) track by $index">
+                                            <a href="#sutta?id=SN:{{bookNum}}.{{$index+1}}">SN {{bookNum}}.{{$index+1}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div flex>
+            <h3>Angutara Nikaya</h3>
+            <br />
+
+            <div ng-repeat="a in range(11) track by $index" show-gt-md class="panel-group" id="anAccordionMain{{$index}}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#anAccordionMain{{$index}}" data-target="#anNikayaMain{{$index}}">Book {{$index+1}}</a>
+                          </h4>
+                    </div>
+                    <div id="anNikayaMain{{$index}}" class="panel-collapse collapse">
+                        <a href="#sutta?id={{getSutta($index, 'AN', true)}}">{{getSutta($index+1, "AN")}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

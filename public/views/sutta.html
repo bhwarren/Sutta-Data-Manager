@@ -1,0 +1,84 @@
+<table><tbody> <tr>
+    <td style="width: 40%;">
+        <div>
+            <h1>{{currentSutta.fullname}}</h1>
+            <br />
+
+            <button ng-click="showSutta()">{{showHideSuttaText}}</button>
+            <table class="left wide topMargin"> <tbody>
+                <tr>
+                    <td>Title: </td>
+                    <td> </td>
+                    <td ng-dblclick="editField('title')">
+                        <span ng-hide="currentSuttaChanges.title"> {{currentSutta.title}} </span>
+                        <input class="wide" ng-show="currentSuttaChanges.title" ng-model="currentSutta.title" ng-blur="doneEditing('title')" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Summary: </td>
+                    <td> </td>
+                    <td ng-dblclick="editField('summary')">
+                        <span ng-hide="currentSuttaChanges.summary" > {{currentSutta.summary}} </span>
+                        <div>
+                            <textarea rows="1" msd-elastic ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')">    {{currentSutta.summary}}
+                            </textarea>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Translations: </td>
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('translations')">Edit</button>
+                    </td>
+                    <td>
+                        <span ng-hide="currentSuttaChanges.translations">
+                            <div ng-repeat="translation in currentSutta.translations track by $index">
+                                <a class="translationPadding" href="{{translation}}">{{translation}}</a>
+                            </div>
+                        </span>
+                        <textarea msd-elastic class="wide" ng-show="currentSuttaChanges.translations" ng-model="translationsEdits" ng-blur="doneEditing('translations')" >
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Parallels: </td>
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('paralells')">Edit</button>
+                    </td>
+                    <td>
+                        <span ng-hide="currentSuttaChanges.parallels">
+                            <span ng-repeat="parallel in currentSutta.parallels track by $index">
+                                <a class="parallelPadding" href="/parallels?parallelId={{parallel}}">{{parallel}}</a>
+                            </span>
+                        </span>
+                        <input ng-show="currentSuttaChanges.parallels" ng-model="currentSutta.parallels" ng-blur="doneEditing('parallels')" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tags: </td>
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('tags')">Edit</button>
+                    </td>
+                    <td class="wide">
+                        <span ng-hide="currentSuttaChanges.tags">
+                            <span ng-repeat="tag in currentSutta.tags track by $index">
+                                <a class="tagPadding" href="/tags?tagId={{tag}}">#{{tag}}</a>
+                            </span>
+                        </span>
+                        <div>
+                            <textarea msd-elastic ng-show="currentSuttaChanges.tags" ng-model="tagsString" ng-blur="doneEditing('tags')"> </textarea>
+                        </div>
+                    </td>
+                </tr>
+            </tbody> </table>
+
+        </div>
+
+    </td>
+
+    <td class="wide left" ng-show="showSuttaPane">
+        <div id="suttaPane" class="scroll" ng-bind-html="suttaPane"> </div>
+    </td>
+
+</tr> </tbody></table>

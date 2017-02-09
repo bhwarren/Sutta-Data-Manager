@@ -1,0 +1,83 @@
+<!doctype html>
+
+<html lang="en" class="tall">
+<head>
+    <meta charset="utf-8">
+
+    <title>Sutta Data Manager</title>
+    <meta name="description" content="Manager For Sutta Data">
+    <meta name="author" content="Bo Warren">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <script src="/bower_components/angular-material/angular-material.js"></script>
+    <script src="/bower_components/angular-route/angular-route.js"></script>
+    <script src="/bower_components/angular-elastic/elastic.js"></script>
+
+    <script src="/js/main.js"></script>
+</head>
+
+<body ng-app="sutta-data-manager" ng-controller="mainController">
+
+    <md-toolbar  layout="row" class="md-theme-indigo">
+        <div class="md-toolbar-tools" layout="row" layout-align="start center" flex>
+            <div><md-button class="md-toolbar-tools"> <a href="#/">  Sutta Manager </a></md-button></div>
+            <div><md-button class="md-toolbar-tools"> <a href="#suttaSelector"> Nikayas </a> </md-button></div>
+            <div><md-button class="md-toolbar-tools"> <a href="#searchSuttaInfo"> Search Sutta Info </a> </md-button></div>
+            <span flex></span>
+
+        </div>
+    </md-toolbar>
+
+
+    <div id="sideNavContainer" ng-controller="sidebarCtrl" layout="row" ng-cloak>
+
+         <md-sidenav md-component-id="left" class="md-sidenav-left">
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools">Nikayas</h1>
+            </md-toolbar>
+
+            <div show-gt-md class="panel-group" id="accordion{{$index}}" ng-repeat="collection in collections">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion{{$index}}" data-target="#nikaya{{$index}}">{{collection}}</a>
+                          </h4>
+                    </div>
+                    <div id="nikaya{{$index}}" class="panel-collapse collapse">
+                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                    </div>
+                </div>
+            </div>
+         </md-sidenav>
+
+      </div>
+
+
+
+<table class="wide tall"><tr class="tall">
+
+<td id="mainPanel" class="topAlign">
+    <div class="center">
+        <h1>Sutta Data Manager</h1>
+        <h3>Manage data concerning buddhist suttas</h3>
+        <br />
+    </div>
+
+    <div id="mainContent" class="center" ng-view> </div>
+</td>
+
+
+</tr> </table>
+
+</body>
+</html>
