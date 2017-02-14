@@ -26,17 +26,29 @@ app.controller("sidebarCtrl", function($scope, $timeout, $mdSidenav, $log){
     };
 });
 
-app.controller("searchController", function($scope, $http){
+app.controller("searchController", function($scope, $http, $routeParams){
     $scope.searchOpts = {
-        value: "Arahat",
-        category: "tag",
+        "value": $routeParams.value,
+        "category": $routeParams.category,
     };
+
+    if($routeParams.value && $routeParams.category){
+
+    }
 
     $scope.search = function(category){
         $scope.searchOpts.category = category;
         $http.post("/searchDB", $scope.searchOpts).then(function(resp){
-            console.log(resp.data);
+            $scope.searchResults = resp;
         });
+    };
+
+    if($routeParams.value && $routeParams.category){
+        $scope.search($routeParams.category);
+    }
+
+    $scope.getKeys = function(obj){
+        return Object.keys(obj).join(", ");
     };
 });
 

@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require("body-parser");
 var PouchDB = require('pouchdb');
+PouchDB.plugin(require('pouchdb-quick-search'));
+
 var collectionInfo = require('./public/js/collectionInfo.json');
 
 var request = require('request');
@@ -90,6 +92,24 @@ app.post('/', function (req, res) {
         newDoc = updateFields(req.body, newDoc, true);
         res.send("new document saved");
         return suttaDb.put(newDoc);
+    });
+});
+
+
+app.post('/searchDB', function(req, res){
+    var value = req.body.value;
+    var category = req.body.category;
+
+    var query = {
+      query: value,
+      fields: [category],
+      include_docs: true,
+      highlighting: true
+    };
+    console.log(JSON.stringify(query));
+    suttaDb.search(query).then(function (searchResult) {
+        console.log('result: ' + JSON.stringify(searchResult));
+        res.send(searchResult);
     });
 });
 

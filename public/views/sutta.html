@@ -8,16 +8,20 @@
             <table class="left wide topMargin"> <tbody>
                 <tr>
                     <td>Title: </td>
-                    <td> </td>
-                    <td ng-dblclick="editField('title')">
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('title')">Edit</button>
+                    </td>
+                    <td>
                         <span ng-hide="currentSuttaChanges.title"> {{currentSutta.title}} </span>
                         <input class="wide" ng-show="currentSuttaChanges.title" ng-model="currentSutta.title" ng-blur="doneEditing('title')" />
                     </td>
                 </tr>
                 <tr>
                     <td>Summary: </td>
-                    <td> </td>
-                    <td ng-dblclick="editField('summary')">
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('summary')">Edit</button>
+                    </td>
+                    <td>
                         <span ng-hide="currentSuttaChanges.summary" > {{currentSutta.summary}} </span>
                         <div>
                             <textarea rows="1" msd-elastic ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')">    {{currentSutta.summary}}
@@ -63,7 +67,7 @@
                     <td class="wide">
                         <span ng-hide="currentSuttaChanges.tags">
                             <span ng-repeat="tag in currentSutta.tags track by $index">
-                                <a class="tagPadding" href="/tags?tagId={{tag}}">#{{tag}}</a>
+                                <a class="tagPadding" href="#/searchSuttaInfo?value={{tag}}&category=tags">#{{tag}}</a>
                             </span>
                         </span>
                         <div>

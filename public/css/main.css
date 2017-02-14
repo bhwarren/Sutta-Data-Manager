@@ -10,8 +10,12 @@ td {
 }
 th{
     text-align: center;
+    padding-bottom: 15px;
 }
 textarea{
+    width: 100%;
+}
+.fullWidth{
     width: 100%;
 }
 
@@ -26,6 +30,9 @@ textarea{
     min-height: 750px;
 }
 
+#searchResultsTable td{}{
+    width: 33%;
+}
 /*#sidebar{
     width: 210px;
     height: 100%;
