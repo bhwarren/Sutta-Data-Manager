@@ -184,39 +184,23 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce){
 
 });
 
-// app.directive('accordion', function() {
-//     var directive = {};
-//     directive.restrict = 'E';
-//     directive.template = '<div  show-gt-md class="panel-group" id="dnAccordionMain{{$index}}">\
-//         <div class="panel panel-default">\
-//             <div class="panel-heading">\
-//                 <h4 class="panel-title">\
-//                     <a ng-if="$index < 4" data-toggle="collapse" data-parent="#dnAccordionMain{{$index}}" data-target="#dnNikayaMain{{$index}}">Suttas {{$index*17+1}}-{{($index+1)*17}}</a>\
-//                   </h4>\
-//             </div>\
-//             <div id="dnNikayaMain{{$index}}" class="panel-collapse collapse">\
-//                 <div ng-init="suttaNum = $parent.$index*17+$index+1" ng-repeat="b in range(17) track by $index">\
-//                     <a href="#sutta?id=DN:{{suttaNum}}">DN {{suttaNum}}</a>\
-//                 </div>\
-//             </div>\
-//         </div>\
-//     </div>';
-//     directive.scope = {
-//         student : "=name"
-//     }
-//
-//
-//     //compile is called during application initialization. AngularJS calls it once when html page is loaded.
-//
-//     directive.compile = function(element, attributes) {
-//         element.css("border", "1px solid #cccccc");
-//
-//         //linkFunction is linked with each element with scope to get the element specific data.
-//         var linkFunction = function($scope, element, attributes) {
-//             element.html("Student: <b>"+$scope.student.name +"</b> , Roll No: <b>"+$scope.student.rollno+"</b><br/>");
-//             element.css("background-color", "#ff00ff");
-//         }
-//         return linkFunction;
-//     }
-//     return directive;
-// });
+app.directive('syncFocusWith', function($timeout, $rootScope) {
+    return {
+        restrict: 'A',
+        scope: {
+            focusValue: "=syncFocusWith"
+        },
+        link: function($scope, $element, attrs) {
+            $scope.$watch("focusValue", function(currentValue, previousValue) {
+                $timeout(function() {
+                    if (currentValue === true && !previousValue) {
+                        $element[0].focus();
+                    } else if (currentValue === false && previousValue) {
+                        $element[0].blur();
+                    }
+                });
+
+            });
+        }
+    };
+});

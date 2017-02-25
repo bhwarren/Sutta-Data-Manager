@@ -13,7 +13,7 @@
                     </td>
                     <td>
                         <span ng-hide="currentSuttaChanges.title"> {{currentSutta.title}} </span>
-                        <input class="wide" ng-show="currentSuttaChanges.title" ng-model="currentSutta.title" ng-blur="doneEditing('title')" />
+                        <input class="wide" ng-show="currentSuttaChanges.title"  ng-model="currentSutta.title" ng-blur="doneEditing('title')"  sync-focus-with="currentSuttaChanges.title" />
                     </td>
                 </tr>
                 <tr>
