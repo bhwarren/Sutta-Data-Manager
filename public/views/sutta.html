@@ -24,7 +24,7 @@
                     <td>
                         <span ng-hide="currentSuttaChanges.summary" > {{currentSutta.summary}} </span>
                         <div>
-                            <textarea rows="1" msd-elastic ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')">    {{currentSutta.summary}}
+                            <textarea rows="1" msd-elastic ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')" sync-focus-with="currentSuttaChanges.summary">    {{currentSutta.summary}}
                             </textarea>
                         </div>
 
@@ -41,22 +41,8 @@
                                 <a class="translationPadding" href="{{translation}}">{{translation}}</a>
                             </div>
                         </span>
-                        <textarea msd-elastic class="wide" ng-show="currentSuttaChanges.translations" ng-model="translationsEdits" ng-blur="doneEditing('translations')" >
+                        <textarea msd-elastic class="wide" ng-show="currentSuttaChanges.translations" ng-model="translationsEdits" ng-blur="doneEditing('translations')" sync-focus-with="currentSuttaChanges.translations">
                         </textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Parallels: </td>
-                    <td class="editButton">
-                        <button type="button" ng-click="editField('paralells')">Edit</button>
-                    </td>
-                    <td>
-                        <span ng-hide="currentSuttaChanges.parallels">
-                            <span ng-repeat="parallel in currentSutta.parallels track by $index">
-                                <a class="parallelPadding" href="/parallels?parallelId={{parallel}}">{{parallel}}</a>
-                            </span>
-                        </span>
-                        <input ng-show="currentSuttaChanges.parallels" ng-model="currentSutta.parallels" ng-blur="doneEditing('parallels')" />
                     </td>
                 </tr>
                 <tr>
@@ -71,7 +57,7 @@
                             </span>
                         </span>
                         <div>
-                            <textarea msd-elastic ng-show="currentSuttaChanges.tags" ng-model="tagsString" ng-blur="doneEditing('tags')"> </textarea>
+                            <textarea msd-elastic ng-show="currentSuttaChanges.tags" ng-model="tagsString" ng-blur="doneEditing('tags')" sync-focus-with="currentSuttaChanges.tags"> </textarea>
                         </div>
                     </td>
                 </tr>
