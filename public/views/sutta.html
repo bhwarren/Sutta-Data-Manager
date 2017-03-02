@@ -1,5 +1,5 @@
-<table><tbody> <tr>
-    <td style="width: 40%;">
+<table id="suttaTable"><tbody> <tr>
+    <td ng-style="{'width': inputWidth}">
         <div>
             <h1>{{currentSutta.fullname}}</h1>
             <br />
@@ -22,9 +22,9 @@
                         <button type="button" ng-click="editField('summary')">Edit</button>
                     </td>
                     <td>
-                        <span ng-hide="currentSuttaChanges.summary" > {{currentSutta.summary}} </span>
+                        <div ng-hide="currentSuttaChanges.summary" > {{currentSutta.summary}} </div>
                         <div>
-                            <textarea rows="1" msd-elastic ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')" sync-focus-with="currentSuttaChanges.summary">    {{currentSutta.summary}}
+                            <textarea msd-elastic ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')" sync-focus-with="currentSuttaChanges.summary">    {{currentSutta.summary}}
                             </textarea>
                         </div>
 

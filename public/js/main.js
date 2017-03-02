@@ -61,7 +61,6 @@ app.controller("mainController", function($scope, $http, $routeParams) {
         });
     }
 
-
     $scope.range = function(n) {
         return new Array(n);
     };
@@ -106,6 +105,7 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce){
         $http.get("/suttaInfo?id="+$routeParams.id).then(function(resp){
             $scope.originalCurrentSutta = angular.copy(resp.data);
             $scope.currentSutta = angular.copy(resp.data);
+            
             $scope.tagsString = $scope.currentSutta.tags.join(",\n");
 
             $scope.currentSuttaChanges = {};
@@ -114,6 +114,8 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce){
             });
         });
     }
+
+    $scope.inputWidth = "700px";
 
     $scope.editField = function (field) {
         $scope.currentSuttaChanges[field] = true;
@@ -166,6 +168,8 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce){
     $scope.showSutta = function(){
         $scope.showSuttaPane = !$scope.showSuttaPane;
         if($scope.showSuttaPane){
+            $scope.inputWidth = "40%";
+
             $scope.showHideSuttaText = "Hide the Full Sutta";
             if(!$scope.suttaPane){
                 var suttaURL = $scope.currentSutta.translations[0];
@@ -178,6 +182,7 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce){
             }
         }
         else{
+            $scope.inputWidth = "700px";
             $scope.showHideSuttaText = "Show the Full Sutta";
         }
     };

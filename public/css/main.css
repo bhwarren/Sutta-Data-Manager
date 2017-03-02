@@ -29,6 +29,9 @@ textarea{
 #mainPanel{
     min-height: 750px;
 }
+#suttaTable{
+    margin: auto;
+}
 
 #searchResultsTable td{}{
     width: 33%;
@@ -48,7 +51,9 @@ textarea{
 }
 #searchBar{
     font-size: 32px;
-    margin: 0;
+    margin: auto;
+    text-align: center;
+    width: 600px;
 }
 #searchBar > input{
     text-align: center;
