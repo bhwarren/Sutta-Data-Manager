@@ -1,7 +1,18 @@
 <table id="suttaTable"><tbody> <tr>
     <td ng-style="{'width': inputWidth}">
         <div>
-            <h1>{{currentSutta.fullname}}</h1>
+            <table class="fullWidth"><tr>
+                <td>
+                    <ng-md-icon icon="keyboard_arrow_left" size="54" ng-click="navigate('left')"></ng-md-icon>
+                </td>
+                <td>
+                    <h1>{{currentSutta.fullname}}</h1>
+                </td>
+                <td>
+                    <ng-md-icon icon="keyboard_arrow_right" size="54" ng-click="navigate('right')"></ng-md-icon>
+                </td>
+            </tr> </table>
+
             <br />
 
             <button ng-click="showSutta()">{{showHideSuttaText}}</button>

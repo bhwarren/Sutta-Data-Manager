@@ -1,17 +1,13 @@
-var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial"]);
+var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial", "ngMdIcons"]);
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : "views/home.html",
+        templateUrl : "views/suttaSelector.html",
         controller : 'mainController'
     })
     .when("/sutta", {
         templateUrl : "views/sutta.html",
         controller : 'suttaController'
-    })
-    .when("/suttaSelector", {
-        templateUrl : "views/suttaSelector.html",
-        controller : 'mainController'
     })
     .when("/searchSuttaInfo", {
         templateUrl : "views/searchSuttaInfo.html",
@@ -100,12 +96,12 @@ function arraysAreSame(arr1, arr2){
         return false;
     }
 }
-app.controller("suttaController", function($scope, $http, $routeParams, $sce){
+app.controller("suttaController", function($scope, $http, $routeParams, $sce, $location){
     if($routeParams.id){
         $http.get("/suttaInfo?id="+$routeParams.id).then(function(resp){
             $scope.originalCurrentSutta = angular.copy(resp.data);
             $scope.currentSutta = angular.copy(resp.data);
-            
+
             $scope.tagsString = $scope.currentSutta.tags.join(",\n");
 
             $scope.currentSuttaChanges = {};
@@ -185,6 +181,58 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce){
             $scope.inputWidth = "700px";
             $scope.showHideSuttaText = "Show the Full Sutta";
         }
+    };
+
+
+    //need to use collectionInfo, not http get 
+    $scope.navigate = function(orientation){
+        var splitId = $routeParams.id.split(":");
+        var splitNum = splitId[1].split(".");
+
+        var collection = splitId[0];
+        var majorNum = splitNum[0];
+        var minorNum = splitNum[1];
+
+        var nextId = collection+":";
+        //if we have a minor number, advance or subtract it (eg AN:2.4)
+        if(minorNum){
+            if(orientation == "right"){
+                nextId += majorNum+"."+(parseInt(minorNum)+1);
+            }
+            else{
+                nextId += majorNum+"."+(parseInt(minorNum)-1);
+            }
+        }
+        //otherwise just advance/subtract the single number there (eg MN:4)
+        else{
+            if(orientation == "right"){
+                nextId += (parseInt(majorNum)+1);
+            }
+            else{
+                nextId += (parseInt(majorNum)-1);
+            }
+        }
+        var firstTryUrl = "/suttaInfo?id="+nextId;
+        $http.get(firstTryUrl).then(function(resp){
+            if(resp.data != "id doesn't exist"){
+                $location.url("/sutta?id="+nextId);
+            }
+            else if(minorNum){
+                if(orientation == "right"){
+                    nextId = collection+":"+(parseInt(majorNum)+1)+".1";
+                }
+                else{
+                    nextId = collection+":"+(parseInt(majorNum)-1)+".9999";
+                }
+                var secondTryUrl = "/suttaInfo?id="+nextId;
+                $http.get(secondTryUrl).then(function(resp){
+                    if(resp.data != "id doesn't exist"){
+                        $location.url("/sutta?id="+nextId);
+                    }
+                });
+            }
+        });
+
     };
 
 });
