@@ -1,4 +1,4 @@
-var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial", "ngMdIcons"]);
+var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial"]);
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
     .when("/", {
@@ -53,7 +53,7 @@ app.controller("mainController", function($scope, $http, $routeParams) {
     if(!$scope.collections){
         $http.get("/js/collectionInfo.json").then(function(resp) {
             $scope.collections = resp.data;
-            console.log($scope.collections);
+            // console.log($scope.collections);
         });
     }
 
@@ -97,6 +97,14 @@ function arraysAreSame(arr1, arr2){
     }
 }
 app.controller("suttaController", function($scope, $http, $routeParams, $sce, $location){
+
+    if(!$scope.collections){
+        $http.get("/js/collectionInfo.json").then(function(resp) {
+            $scope.collections = resp.data;
+            console.log($scope.collections);
+        });
+    }
+
     if($routeParams.id){
         $http.get("/suttaInfo?id="+$routeParams.id).then(function(resp){
             $scope.originalCurrentSutta = angular.copy(resp.data);
@@ -184,55 +192,50 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
     };
 
 
-    //need to use collectionInfo, not http get 
+    //need to use collectionInfo, not http get
     $scope.navigate = function(orientation){
         var splitId = $routeParams.id.split(":");
         var splitNum = splitId[1].split(".");
 
         var collection = splitId[0];
-        var majorNum = splitNum[0];
-        var minorNum = splitNum[1];
+        var majorNum = parseInt(splitNum[0]);
+        var minorNum = parseInt(splitNum[1]);
+
+        //start off assuming going forward, check if going back
+        var direction = 1;
+        if(orientation == "left"){
+            direction = -1;
+        }
 
         var nextId = collection+":";
-        //if we have a minor number, advance or subtract it (eg AN:2.4)
-        if(minorNum){
-            if(orientation == "right"){
-                nextId += majorNum+"."+(parseInt(minorNum)+1);
-            }
-            else{
-                nextId += majorNum+"."+(parseInt(minorNum)-1);
-            }
-        }
-        //otherwise just advance/subtract the single number there (eg MN:4)
-        else{
-            if(orientation == "right"){
-                nextId += (parseInt(majorNum)+1);
-            }
-            else{
-                nextId += (parseInt(majorNum)-1);
-            }
-        }
-        var firstTryUrl = "/suttaInfo?id="+nextId;
-        $http.get(firstTryUrl).then(function(resp){
-            if(resp.data != "id doesn't exist"){
+
+        //just advance/subtract the single number there (eg MN:4) if no minor number
+        if(! minorNum){
+            if($scope.collections[collection].books[majorNum + direction]){
+                nextId += (majorNum + direction);
                 $location.url("/sutta?id="+nextId);
             }
-            else if(minorNum){
-                if(orientation == "right"){
-                    nextId = collection+":"+(parseInt(majorNum)+1)+".1";
-                }
-                else{
-                    nextId = collection+":"+(parseInt(majorNum)-1)+".9999";
-                }
-                var secondTryUrl = "/suttaInfo?id="+nextId;
-                $http.get(secondTryUrl).then(function(resp){
-                    if(resp.data != "id doesn't exist"){
-                        $location.url("/sutta?id="+nextId);
-                    }
-                });
-            }
-        });
+        }
+        //we have a minor number, advance or subtract it (eg AN:2.4)
+        else{
+            var numSuttas = $scope.collections[collection].books[(majorNum-1)].numSuttas;
 
+            //if we're going back and hit first sutta, get previous book
+            if(minorNum + direction === 0 && majorNum -1 > 0){
+                nextId += (majorNum - 1) + "." + $scope.collections[collection].books[(majorNum-1) - 1].numSuttas;
+
+            }
+            //if going forward and hit last sutta in book, get next book
+            else if(minorNum + direction > numSuttas && (majorNum-1) + 1 <= $scope.collections[collection].books.length - 1){
+                nextId += (majorNum+1) + ".1";
+            }
+            //otherwise just get the next sutta
+            else{
+                nextId += majorNum + "." + (minorNum + direction);
+            }
+
+            $location.url("/sutta?id="+nextId);
+        }
     };
 
 });
