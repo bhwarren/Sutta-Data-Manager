@@ -256,17 +256,17 @@
     },
     "AN": {"fullname": "Anguttara Nikaya",
         "books":[
-            {"bookId":"AN:1","bookName":"Ekaka Nip&#x101;ta","bookUrl":"/an1" },
-            {"bookId":"AN:2","bookName":"Duka Nip&#x101;ta","bookUrl":"/an2" },
-            {"bookId":"AN:3","bookName":"Tika Nip&#x101;ta","bookUrl":"/an3" },
-            {"bookId":"AN:4","bookName":"Catukka Nip&#x101;ta","bookUrl":"/an4" },
-            {"bookId":"AN:5","bookName":"Pa&#xF1;caka Nip&#x101;ta","bookUrl":"/an5" },
-            {"bookId":"AN:6","bookName":"Chakka Nip&#x101;ta","bookUrl":"/an6" },
-            {"bookId":"AN:7","bookName":"Sattaka Nip&#x101;ta","bookUrl":"/an7" },
-            {"bookId":"AN:8","bookName":"A&#x1E6D;&#x1E6D;haka Nip&#x101;ta","bookUrl":"/an8" },
-            {"bookId":"AN:9","bookName":"Navaka Nip&#x101;ta","bookUrl":"/an9" },
-            {"bookId":"AN:10","bookName":"Dasaka Nip&#x101;ta","bookUrl":"/an10" },
-            {"bookId":"AN:11","bookName":"Ek&#x101;dasaka Nip&#x101;ta","bookUrl":"/an11" }
+            {"bookId":"AN:1","bookName":"Ekaka Nip&#x101;ta","bookUrl":"/an1", "numSuttas": 627 },
+            {"bookId":"AN:2","bookName":"Duka Nip&#x101;ta","bookUrl":"/an2", "numSuttas": 479},
+            {"bookId":"AN:3","bookName":"Tika Nip&#x101;ta","bookUrl":"/an3", "numSuttas": 352 },
+            {"bookId":"AN:4","bookName":"Catukka Nip&#x101;ta","bookUrl":"/an4", "numSuttas": 783 },
+            {"bookId":"AN:5","bookName":"Pa&#xF1;caka Nip&#x101;ta","bookUrl":"/an5", "numSuttas": 1152 },
+            {"bookId":"AN:6","bookName":"Chakka Nip&#x101;ta","bookUrl":"/an6", "numSuttas": 649  },
+            {"bookId":"AN:7","bookName":"Sattaka Nip&#x101;ta","bookUrl":"/an7", "numSuttas": 1124 },
+            {"bookId":"AN:8","bookName":"A&#x1E6D;&#x1E6D;haka Nip&#x101;ta","bookUrl":"/an8", "numSuttas": 627 },
+            {"bookId":"AN:9","bookName":"Navaka Nip&#x101;ta","bookUrl":"/an9", "numSuttas": 432 },
+            {"bookId":"AN:10","bookName":"Dasaka Nip&#x101;ta","bookUrl":"/an10", "numSuttas": 746 },
+            {"bookId":"AN:11","bookName":"Ek&#x101;dasaka Nip&#x101;ta","bookUrl":"/an11", "numSuttas": 1151 }
         ]
     },
     "KN": {"fullname": "Khuddaka Nikaya"}
