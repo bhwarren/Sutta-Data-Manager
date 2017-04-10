@@ -116,6 +116,8 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
             angular.forEach(Object.keys($scope.currentSutta), function(key){
                 $scope.currentSuttaChanges[key] = false;
             });
+            $scope.revealSuttaTextButton = $scope.currentSutta.translations.length > 0;
+
         });
     }
 
@@ -211,7 +213,7 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
 
         //just advance/subtract the single number there (eg MN:4) if no minor number
         if(! minorNum){
-            if($scope.collections[collection].books[majorNum + direction]){
+            if($scope.collections[collection].books[majorNum + direction -1]){
                 nextId += (majorNum + direction);
                 $location.url("/sutta?id="+nextId);
             }
