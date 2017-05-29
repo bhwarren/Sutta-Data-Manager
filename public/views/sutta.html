@@ -46,6 +46,36 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>Notes: </td>
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('notes')">Edit</button>
+                    </td>
+                    <td>
+                        <div class="summary" ng-hide="currentSuttaChanges.notes" > {{currentSutta.notes}} </div>
+                        <div>
+                            <textarea rows="15" ng-show="currentSuttaChanges.notes" ng-model="currentSutta.notes" ng-blur="doneEditing('notes')" sync-focus-with="currentSuttaChanges.notes">
+                                {{currentSutta.notes}}
+                            </textarea>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Questions: </td>
+                    <td class="editButton">
+                        <button type="button" ng-click="editField('questions')">Edit</button>
+                    </td>
+                    <td>
+                        <div class="summary" ng-hide="currentSuttaChanges.questions" > {{currentSutta.questions}} </div>
+                        <div>
+                            <textarea rows="5" ng-show="currentSuttaChanges.questions" ng-model="currentSutta.questions" ng-blur="doneEditing('questions')" sync-focus-with="currentSuttaChanges.questions">
+                                {{currentSutta.questions}}
+                            </textarea>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
                     <td>Translations: </td>
                     <td class="editButton">
                         <button type="button" ng-click="editField('translations')">Edit</button>

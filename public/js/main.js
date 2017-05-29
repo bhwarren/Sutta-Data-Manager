@@ -61,6 +61,12 @@ app.controller("mainController", function($scope, $http, $routeParams) {
         return new Array(n);
     };
 
+
+    $http.get("/lastEdited").then(function(resp){
+        $scope.lastEdited = resp.data;
+    });
+
+
     $scope.getSutta = function(num, collection, id){
         if( (collection == "DN" && num <= 34) || (collection == "MN" && num <= 152) ||
              collection == "SN" && num <= 56 || collection == "AN" && num <= 11 ){

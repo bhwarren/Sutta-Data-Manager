@@ -15,13 +15,21 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 var suttaDb = new PouchDB('./database/suttaDatabase.db');
+var userDb = new PouchDB('./database/userDatabase.db');
 
 var validDbFields = [
     {'fieldName': 'title' , 'fieldType':'value'},
     {'fieldName': 'summary' , 'fieldType':'value'},
     {'fieldName': 'tags' , 'fieldType':'array'},
     {'fieldName': 'parallels' , 'fieldType':'array'},
-    {'fieldName': 'translations' , 'fieldType':'array'}
+    {'fieldName': 'translations' , 'fieldType':'array'},
+    {'fieldName': 'questions' , 'fieldType':'value'},
+    {'fieldName': 'notes' , 'fieldType':'value'},
+];
+
+var validUserFields = [
+    {'fieldName': '_id', 'fieldType': 'value'},
+    {'fieldName': 'lastSutta', 'fieldType': 'value'}
 ];
 
 //sutta summaries
@@ -36,6 +44,7 @@ var designDoc = {
     }
 };
 
+
 //     suttaDb.put(designDoc);
 // suttaDb.get('_design/all_suttas_index').then(function (doc) {
 //     suttaDb.remove(doc);
@@ -45,8 +54,24 @@ var designDoc = {
 // });
 
 
+
 //serve static content
 app.use('/static', express.static(__dirname + '/public'));
+
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/public/views/index.html');
+});
+
+app.get('/lastEdited', function(req, res){
+    var resp = "";
+    userDb.get("bhwarren").then(function(doc){
+        resp = doc.lastSutta;
+    }).catch(function(err){
+        resp = err;
+    }).then(function(){
+        res.send(resp);
+    });
+});
 
 app.get('/suttatext', function(req, res){
     request(req.query.url, function (error, response, body) {
@@ -71,9 +96,6 @@ app.get('/suttaInfo', function(req, res){
     });
 });
 
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/public/views/index.html');
-});
 
 app.post('/', function (req, res) {
     console.log(JSON.stringify(req.body));
@@ -93,6 +115,15 @@ app.post('/', function (req, res) {
         res.send("new document saved");
         return suttaDb.put(newDoc);
     });
+
+    userDb.get("bhwarren").then(function (doc) {
+        doc.lastSutta = id;
+        return userDb.put(doc);
+    }).catch(function (err) {
+        var newDoc = {"_id": "bhwarren", "lastSutta": id};
+        return userDb.put(newDoc);
+    });
+
 });
 
 
