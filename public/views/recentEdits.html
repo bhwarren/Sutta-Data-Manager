@@ -1,0 +1,14 @@
+<br />
+<h2>Recent Edits</h2>
+
+<br />
+<br />
+
+<table id="recentEditsTable">
+    <tr ng-repeat="edit in recentEdits">
+        <td> <a href="#sutta?id={{edit._id}}"> {{edit.fullname}} </a></td>
+        <td> {{edit.title}}</td>
+        <td> {{edit.fields.join(",")}}</td>
+        <td> {{prettyDate(edit.time)}}</td>
+    </tr>
+</table>

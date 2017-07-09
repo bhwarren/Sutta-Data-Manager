@@ -137,3 +137,10 @@ td > #suttaPane{
     max-height: 400px;
     overflow: auto;
 }
+
+#recentEditsTable{
+    margin: 0 auto;
+    text-align: center;
+    min-width: 650px;
+    max-width: 900px;
+}

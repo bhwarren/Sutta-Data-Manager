@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require("body-parser");
+var deepCopy = require("deep-copy");
 var PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-quick-search'));
 
@@ -16,6 +17,7 @@ app.use(express.static('public'));
 
 var suttaDb = new PouchDB('./database/suttaDatabase.db');
 var userDb = new PouchDB('./database/userDatabase.db');
+var miscDb = new PouchDB('./database/miscellaneous.db');
 
 var validDbFields = [
     {'fieldName': 'title' , 'fieldType':'value'},
@@ -97,6 +99,15 @@ app.get('/suttaInfo', function(req, res){
 });
 
 
+app.get('/recentEdits', function(req, res){
+    miscDb.get('recentEdits').then(function(doc){
+        res.send(doc.edits);
+    }).catch(function(err){
+        res.send(err.toString());
+    });
+});
+
+
 app.post('/', function (req, res) {
     console.log(JSON.stringify(req.body));
     var id = req.body.id;
@@ -145,7 +156,8 @@ app.post('/searchDB', function(req, res){
 });
 
 
-function prettifyDoc(doc){
+function prettifyDoc(document){
+    var doc = deepCopy(document);
     var [collectionId, textNum] = doc._id.split(":");
     doc.collection = collectionInfo[collectionId].fullname;
     doc.fullname = doc.collection + " " + textNum;
@@ -156,14 +168,18 @@ function prettifyDoc(doc){
 }
 
 function updateFields(reqBody, document){
+
     validDbFields.forEach(function(key) {
         var field = key.fieldName;
         var type = key.fieldType;
 
         var newValue = reqBody[field];
         //if user posted a new value
-        if(newValue){
+        if(newValue != undefined){
+            var oldValue = document[field];
             document[field] = newValue;
+
+            logChange(document, field);
         }
         else if( !document[field] ){
             //initialize default values
@@ -178,6 +194,59 @@ function updateFields(reqBody, document){
     });
     return document;
 }
+
+function logChange(document, field){
+    miscDb.get('recentEdits').then(function (doc) {
+
+        var found = false;
+        var lastIndex = -1;
+        for(var i=0; i < doc.edits.length; i++){
+            if(doc.edits[i].fullname == prettifyDoc(document).fullname){
+                found = true;
+                lastIndex = i;
+            }
+        }
+
+        i = lastIndex;
+        var currFieldIndex = doc.edits[i].fields.indexOf(field);
+        if(currFieldIndex == -1){
+            doc.edits[i].fields.push(field);
+        }
+
+        var timeoutMillis = 10*60*1000; //10 minutes
+        var isTimedOut = -(doc.edits[i].time - (new Date().getTime())) > timeoutMillis;
+        console.log(-(doc.edits[i].time - (new Date().getTime())));
+        var isSameEdit = found ? !isTimedOut : false;
+
+
+        if(isSameEdit){
+            doc.edits[i].time = Date.now();
+
+            var edit = doc.edits.splice(i, 1)[0];
+            doc.edits.push(edit);
+        }
+        else{
+            doc.edits.push({
+                "fields": [field],
+                "fullname": prettifyDoc(document).fullname,
+                "_id": document._id,
+                "title": document.title,
+                "time": Date.now()
+            });
+        }
+
+        var maxEntries = 50;
+        if(doc.edits.length > maxEntries){
+            var numToDelete = doc.edits.length - maxEntries;
+            doc.edits.splice(0, numToDelete);
+        }
+
+        return miscDb.put(doc);
+    }).catch(function (err) {
+        console.log(err);
+    });
+}
+
 
 
 var port = 4444;

@@ -12,6 +12,10 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/searchSuttaInfo", {
         templateUrl : "views/searchSuttaInfo.html",
         controller : 'searchController'
+    })
+    .when("/recentEdits", {
+        templateUrl : "views/recentEdits.html",
+        controller : 'recentEditsController'
     });
 });
 
@@ -102,6 +106,34 @@ function arraysAreSame(arr1, arr2){
         return false;
     }
 }
+
+app.controller("recentEditsController", function($scope, $http){
+
+    $http.get('/recentEdits').then(function(response){
+        $scope.recentEdits = response.data.reverse();
+    }).catch(function(err){
+        $scope.recentEdits = err;
+    });
+
+
+    $scope.prettyDate = function(d){
+        var date = new Date(d);
+        if(date.getDate() == new Date().getDate() &&
+            date.getMonth() == new Date().getMonth() &&
+            date.getFullYear() == new Date().getFullYear()){
+
+            var hours= date.getHours()%12;
+            hours = hours === 0 ? 12 : hours;
+
+            var minutes = date.getMinutes();
+            minutes = minutes < 10 ? "0"+minutes : minutes;
+
+            return hours+":"+minutes;
+        }
+        return date.toLocaleString();
+    };
+});
+
 app.controller("suttaController", function($scope, $http, $routeParams, $sce, $location){
 
     if(!$scope.collections){
@@ -151,7 +183,6 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
         }
         //if user updated the value
         if($scope.oldFieldValue != $scope.currentSutta[field]){
-            console.log("not the same");
             //check for blank fields between commas and remove them
             if(Array.isArray($scope.originalCurrentSutta[field])){
                 console.log($scope.currentSutta[field]);
