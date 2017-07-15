@@ -215,7 +215,7 @@ function logChange(document, field){
                 doc.edits[i].fields.push(field);
             }
 
-            var timeoutMillis = 10*60*1000; //10 minutes
+            var timeoutMillis = 2*60*60*1000; //2 hours
             isTimedOut = -(doc.edits[i].time - (new Date().getTime())) > timeoutMillis;
 
         }
