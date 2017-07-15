@@ -208,14 +208,18 @@ function logChange(document, field){
         }
 
         i = lastIndex;
-        var currFieldIndex = doc.edits[i].fields.indexOf(field);
-        if(currFieldIndex == -1){
-            doc.edits[i].fields.push(field);
+        var isTimedOut = false;
+        if(doc.edits[i]){
+            var currFieldIndex = doc.edits[i].fields.indexOf(field);
+            if(currFieldIndex == -1){
+                doc.edits[i].fields.push(field);
+            }
+
+            var timeoutMillis = 10*60*1000; //10 minutes
+            isTimedOut = -(doc.edits[i].time - (new Date().getTime())) > timeoutMillis;
+
         }
 
-        var timeoutMillis = 10*60*1000; //10 minutes
-        var isTimedOut = -(doc.edits[i].time - (new Date().getTime())) > timeoutMillis;
-        console.log(-(doc.edits[i].time - (new Date().getTime())));
         var isSameEdit = found ? !isTimedOut : false;
 
 
