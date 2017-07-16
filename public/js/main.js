@@ -124,9 +124,12 @@ app.controller("recentEditsController", function($scope, $http){
 
             var hours= date.getHours()%12;
             hours = hours === 0 ? 12 : hours;
+            hours = "Today, "+hours;
 
             var minutes = date.getMinutes();
             minutes = minutes < 10 ? "0"+minutes : minutes;
+            minutes = date.getHours()>11 ? minutes+"pm" : minutes+"am";
+
 
             return hours+":"+minutes;
         }
@@ -159,14 +162,31 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
         });
     }
 
+    $scope.editButtons = {
+        "title": "Edit",
+        "summary":  "Edit",
+        "notes": "Edit",
+        "questions": "Edit",
+        "translations": "Edit",
+        "tags": "Edit"
+    };
+
     $scope.inputWidth = "700px";
 
     $scope.editField = function (field) {
-        $scope.currentSuttaChanges[field] = true;
-        $scope.oldFieldValue = $scope.currentSutta[field];
-        if(field == "translations"){
-            $scope.translationsEdits = $scope.currentSutta[field].toString().replace(",","\n");
+        if($scope.editButtons[field] == "Edit"){
+            console.log("showing edits");
+            $scope.currentSuttaChanges[field] = true;
+            $scope.oldFieldValue = $scope.currentSutta[field];
+            if(field == "translations"){
+                $scope.translationsEdits = $scope.currentSutta[field].toString().replace(",","\n");
+            }
+            $scope.editButtons[field] = "Save";
         }
+        else if($scope.editButtons[field] == "Save"){
+            $scope.doneEditing(field);
+        }
+
     };
 
     $scope.doneEditing = function (field) {
@@ -203,6 +223,10 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
             $http.post("/", submitSutta).then(function(resp){
                 console.log(resp.data);
             });
+        }
+        
+        if($scope.editButtons[field] == "Save"){
+            $scope.editButtons[field] = "Edit";
         }
     };
 

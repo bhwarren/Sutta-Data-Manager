@@ -3,14 +3,12 @@
         <div>
             <table class="fullWidth"><tr>
                 <td class="top-padding-fix">
-                    <!-- <ng-md-icon icon="keyboard_arrow_left" size="54" ng-click="navigate('left')"></ng-md-icon> -->
                     <i class="material-icons md-54" ng-click="navigate('left')">keyboard_arrow_left</i>
                 </td>
                 <td>
                     <h1>{{currentSutta.fullname}}</h1>
                 </td>
                 <td class="top-padding-fix">
-                    <!-- <ng-md-icon icon="keyboard_arrow_right" size="54" ng-click="navigate('right')"></ng-md-icon> -->
                     <i class="material-icons md-54" ng-click="navigate('right')">keyboard_arrow_right</i>
 
                 </td>
@@ -23,22 +21,22 @@
                 <tr>
                     <td>Title: </td>
                     <td class="editButton">
-                        <button type="button" ng-click="editField('title')">Edit</button>
+                        <button type="button" ng-click="editField('title')">{{editButtons['title']}}</button>
                     </td>
                     <td>
                         <span ng-hide="currentSuttaChanges.title"> {{currentSutta.title}} </span>
-                        <input class="wide" ng-show="currentSuttaChanges.title"  ng-model="currentSutta.title" ng-blur="doneEditing('title')"  sync-focus-with="currentSuttaChanges.title" />
+                        <input class="wide" ng-show="currentSuttaChanges.title"  ng-model="currentSutta.title"  sync-focus-with="currentSuttaChanges.title" />
                     </td>
                 </tr>
                 <tr>
                     <td>Summary: </td>
                     <td class="editButton">
-                        <button type="button" ng-click="editField('summary')">Edit</button>
+                        <button type="button" ng-click="editField('summary')">{{editButtons['summary']}}</button>
                     </td>
                     <td>
                         <div class="summary" ng-hide="currentSuttaChanges.summary" > {{currentSutta.summary}} </div>
                         <div>
-                            <textarea rows="25" ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" ng-blur="doneEditing('summary')" sync-focus-with="currentSuttaChanges.summary">
+                            <textarea rows="25" ng-show="currentSuttaChanges.summary" ng-model="currentSutta.summary" sync-focus-with="currentSuttaChanges.summary">
                                 {{currentSutta.summary}}
                             </textarea>
                         </div>
@@ -48,12 +46,12 @@
                 <tr>
                     <td>Notes: </td>
                     <td class="editButton">
-                        <button type="button" ng-click="editField('notes')">Edit</button>
+                        <button type="button" ng-click="editField('notes')">{{editButtons['notes']}}</button>
                     </td>
                     <td>
                         <div class="summary" ng-hide="currentSuttaChanges.notes" > {{currentSutta.notes}} </div>
                         <div>
-                            <textarea rows="15" ng-show="currentSuttaChanges.notes" ng-model="currentSutta.notes" ng-blur="doneEditing('notes')" sync-focus-with="currentSuttaChanges.notes">
+                            <textarea rows="15" ng-show="currentSuttaChanges.notes" ng-model="currentSutta.notes" sync-focus-with="currentSuttaChanges.notes">
                                 {{currentSutta.notes}}
                             </textarea>
                         </div>
@@ -63,12 +61,12 @@
                 <tr>
                     <td>Questions: </td>
                     <td class="editButton">
-                        <button type="button" ng-click="editField('questions')">Edit</button>
+                        <button type="button" ng-click="editField('questions')">{{editButtons['questions']}}</button>
                     </td>
                     <td>
                         <div class="summary" ng-hide="currentSuttaChanges.questions" > {{currentSutta.questions}} </div>
                         <div>
-                            <textarea rows="5" ng-show="currentSuttaChanges.questions" ng-model="currentSutta.questions" ng-blur="doneEditing('questions')" sync-focus-with="currentSuttaChanges.questions">
+                            <textarea rows="5" ng-show="currentSuttaChanges.questions" ng-model="currentSutta.questions"  sync-focus-with="currentSuttaChanges.questions">
                                 {{currentSutta.questions}}
                             </textarea>
                         </div>
@@ -78,7 +76,7 @@
                 <tr>
                     <td>Translations: </td>
                     <td class="editButton">
-                        <button type="button" ng-click="editField('translations')">Edit</button>
+                        <button type="button" ng-click="editField('translations')">{{editButtons['translations']}}</button>
                     </td>
                     <td>
                         <span ng-hide="currentSuttaChanges.translations">
@@ -86,14 +84,14 @@
                                 <a class="translationPadding" href="{{translation}}">{{translation}}</a>
                             </div>
                         </span>
-                        <textarea msd-elastic class="wide" ng-show="currentSuttaChanges.translations" ng-model="translationsEdits" ng-blur="doneEditing('translations')" sync-focus-with="currentSuttaChanges.translations">
+                        <textarea msd-elastic class="wide" ng-show="currentSuttaChanges.translations" ng-model="translationsEdits" sync-focus-with="currentSuttaChanges.translations">
                         </textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>Tags: </td>
                     <td class="editButton">
-                        <button type="button" ng-click="editField('tags')">Edit</button>
+                        <button type="button" ng-click="editField('tags')">{{editButtons['tags']}}</button>
                     </td>
                     <td class="wide">
                         <span ng-hide="currentSuttaChanges.tags">
@@ -102,7 +100,7 @@
                             </span>
                         </span>
                         <div>
-                            <textarea msd-elastic ng-show="currentSuttaChanges.tags" ng-model="tagsString" ng-blur="doneEditing('tags')" sync-focus-with="currentSuttaChanges.tags"> </textarea>
+                            <textarea msd-elastic ng-show="currentSuttaChanges.tags" ng-model="tagsString" sync-focus-with="currentSuttaChanges.tags"> </textarea>
                         </div>
                     </td>
                 </tr>

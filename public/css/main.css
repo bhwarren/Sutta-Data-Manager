@@ -7,11 +7,9 @@
 .material-icons.md-54 { font-size: 54px; }
 
 
-
-
 body{
     min-width: 700px;
-    height: 100%;
+    height: auto !important;
 }
 ng-md-icon {
   fill: currentColor;
