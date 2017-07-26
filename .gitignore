@@ -1,5 +1,3 @@
-# Ignore everything
-database/*
-
-# But not these files...
-!database/dbDumps/*
+database/miscellaneous.db*
+database/suttaDatabase.db*
+database/userDatabase.db*
