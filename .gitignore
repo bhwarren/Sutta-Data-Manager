@@ -1,0 +1,5 @@
+# Ignore everything
+database/*
+
+# But not these files...
+!database/dbDumps/*
