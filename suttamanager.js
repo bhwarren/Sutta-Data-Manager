@@ -107,6 +107,16 @@ app.get('/recentEdits', function(req, res){
     });
 });
 
+app.get('/getAllTags', function(req, res){
+    miscDb.get('allSuttaTags').then(function(doc){
+        res.send(doc.suttaTags);
+    }).catch(function(err){
+        if(err.message == "missing"){
+            miscDb.put({"_id": "allSuttaTags", "suttaTags": []});
+        }
+        res.send(err.toString());
+    });
+});
 
 app.post('/', function (req, res) {
     console.log(JSON.stringify(req.body));
@@ -148,9 +158,7 @@ app.post('/searchDB', function(req, res){
       include_docs: true,
       highlighting: true
     };
-    console.log(JSON.stringify(query));
     suttaDb.search(query).then(function (searchResult) {
-        console.log('result: ' + JSON.stringify(searchResult));
         res.send(searchResult);
     });
 });

@@ -1,4 +1,4 @@
-var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial"]);
+var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial", "ui.bootstrap"]);
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
     .when("/", {
@@ -173,6 +173,12 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
 
     $scope.inputWidth = "700px";
 
+    $scope.getAllTags = function(val) {
+        return $http.get('/getAllTags').then(function(response){
+            return response.data;
+        });
+    };
+
     $scope.editField = function (field) {
         if($scope.editButtons[field] == "Edit"){
             console.log("showing edits");
@@ -224,7 +230,7 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
                 console.log(resp.data);
             });
         }
-        
+
         if($scope.editButtons[field] == "Save"){
             $scope.editButtons[field] = "Edit";
         }
