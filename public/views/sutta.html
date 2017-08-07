@@ -89,39 +89,40 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Tags: </td>
-                    <td class="editButton">
+                    <td class="middle">Tags: </td>
+                    <td class="middle editButton">
                         <button type="button" ng-click="editField('tags')">{{editButtons['tags']}}</button>
                     </td>
-                    <td class="wide">
-                        <span ng-hide="currentSuttaChanges.tags">
+                    <td class="middle wide" ng-class="{center: currentSuttaChanges.tags}">
+                        <br />
+
+                        <span class="center">
                             <span ng-repeat="tag in currentSutta.tags track by $index">
                                 <a class="tagPadding" href="#/searchSuttaInfo?value={{tag}}&category=tags">#{{tag}}</a>
                             </span>
                         </span>
-                        <div>
-                            <textarea msd-elastic ng-show="currentSuttaChanges.tags" ng-model="tagsString" sync-focus-with="currentSuttaChanges.tags"> </textarea>
+                        <br />
+                        <br />
 
-                            <md-autocomplete
-                              ng-disabled="ctrl.isDisabled"
-                              md-no-cache="ctrl.noCache"
-                              md-selected-item="ctrl.selectedItem"
-                              md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                              md-search-text="ctrl.searchText"
-                              md-selected-item-change="ctrl.selectedItemChange(item)"
-                              md-items="item in ctrl.querySearch(ctrl.searchText)"
+                        <div>
+                            <md-autocomplete id="tagComplete" ng-show="currentSuttaChanges.tags" class="inlineBlock"
+                              md-selected-item="selectedItem"
+                              md-search-text="searchText"
+                              md-items="item in querySearch(searchText)"
                               md-item-text="item.display"
                               md-min-length="0"
-                              placeholder="What is your favorite US state?">
+                              md-selected-item-change = "selectedItemChanged(item)"
+                              md-dropdown-position="top"
+                            >
                             <md-item-template>
-                              <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
                             </md-item-template>
-                            <md-not-found>
-                              No states matching "{{ctrl.searchText}}" were found.
-                              <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
-                            </md-not-found>
                           </md-autocomplete>
                         </div>
+
+                    </td>
+                    <td class="middle">
+                        <md-button class="inlineBlock" ng-show="currentSuttaChanges.tags" ng-click="newTag(searchText)">Add</md-button>
                     </td>
                 </tr>
             </tbody> </table>

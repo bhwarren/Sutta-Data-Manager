@@ -67,6 +67,9 @@ textarea{
 #searchBar > input{
     text-align: center;
 }
+#tagComplete {
+    width: 30em;
+}
 
 .valign{
     vertical-align: middle;
@@ -103,9 +106,14 @@ textarea{
 .center{
     text-align: center;
 }
-
+.inlineBlock{
+    display: inline-block;
+}
 .tagPadding{
     padding-right: 7px;
+}
+.middle{
+    vertical-align: middle;
 }
 
 .panel > .panel-heading {

@@ -1,4 +1,4 @@
-var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial", "ui.bootstrap"]);
+var app = angular.module("sutta-data-manager", ["ngRoute", "monospaced.elastic", "ngMaterial"]);
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
     .when("/", {
@@ -173,15 +173,62 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
 
     $scope.inputWidth = "700px";
 
-    $scope.getAllTags = function(val) {
-        return $http.get('/getAllTags').then(function(response){
-            return response.data;
+    $scope.allTags = [];
+    $http.get('/getAllTags').then(function(response){
+        var uniqueTags = Array.from(new Set(response.data));
+        uniqueTags.forEach(function(tag){
+            if(tag){
+                $scope.allTags.push({'value': tag.toLowerCase(), 'display': tag});
+            }
         });
-    };
+    });
+
+    $scope.querySearch = function(query){
+        function createFilterFor(query) {
+               var lowercaseQuery = angular.lowercase(query);
+               return function filterFn(tagItem) {
+                   if(!tagItem){
+                       return -1;
+                   }
+                  return (tagItem.value.indexOf(lowercaseQuery) != -1);
+               };
+            }
+
+       return query ? $scope.allTags.filter( createFilterFor(query) ) :
+          $scope.allTags;
+   };
+
+   $scope.selectedItemChanged = function(item){
+       if(item){
+            $scope.newTag(item.display);
+       }
+   };
+
+   $scope.newTag = function(tag){
+       if(!tag || tag.length === 0){
+           return;
+       }
+
+       var isNewTag = true;
+       $scope.allTags.forEach(function(item){
+          if(item.display == tag){
+              isNewTag = false;
+          }
+       });
+       if(isNewTag){
+           $scope.allTags.push({'value': tag.toLowerCase(), 'display': tag});
+       }
+
+       $scope.oldFieldValue = angular.copy($scope.currentSutta.tags);
+       $scope.tagsString += ", "+tag;
+
+       $scope.currentSutta.tags.push(tag);
+       $scope.searchText = "";
+       $scope.forceSave = true;
+   };
 
     $scope.editField = function (field) {
         if($scope.editButtons[field] == "Edit"){
-            console.log("showing edits");
             $scope.currentSuttaChanges[field] = true;
             $scope.oldFieldValue = $scope.currentSutta[field];
             if(field == "translations"){
@@ -204,14 +251,11 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
             //add blank b/c needs to be different otherwise odd vertical behaviour
             $scope.currentSutta[field] = $scope.translationsEdits.replace("\n",",")+" ";
         }
-        else if(field == "tags"){
-            $scope.currentSutta[field] = $scope.tagsString;
-        }
+
         //if user updated the value
         if($scope.oldFieldValue != $scope.currentSutta[field]){
             //check for blank fields between commas and remove them
-            if(Array.isArray($scope.originalCurrentSutta[field])){
-                console.log($scope.currentSutta[field]);
+            if(field != "tags" && Array.isArray($scope.originalCurrentSutta[field])){
                 var newValues = $scope.currentSutta[field].split(/[,\n]+/);
                 $scope.currentSutta[field] = [];
 
