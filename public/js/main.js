@@ -194,13 +194,12 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
                };
             }
 
-       return query ? $scope.allTags.filter( createFilterFor(query) ) :
-          $scope.allTags;
+       return query ? $scope.allTags.filter( createFilterFor(query) ) : $scope.allTags;
    };
 
    $scope.selectedItemChanged = function(item){
        if(item){
-            $scope.newTag(item.display);
+           $scope.selectedItem = item;
        }
    };
 
@@ -216,6 +215,7 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
           }
        });
        if(isNewTag){
+           console.log("adding new tag");
            $scope.allTags.push({'value': tag.toLowerCase(), 'display': tag});
        }
 
@@ -225,6 +225,10 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
        $scope.currentSutta.tags.push(tag);
        $scope.searchText = "";
        $scope.forceSave = true;
+   };
+
+   $scope.enterTag = function(tag){
+
    };
 
     $scope.editField = function (field) {
@@ -253,7 +257,7 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
         }
 
         //if user updated the value
-        if($scope.oldFieldValue != $scope.currentSutta[field]){
+        if(field == "tags" || $scope.oldFieldValue != $scope.currentSutta[field]){
             //check for blank fields between commas and remove them
             if(field != "tags" && Array.isArray($scope.originalCurrentSutta[field])){
                 var newValues = $scope.currentSutta[field].split(/[,\n]+/);
@@ -277,6 +281,13 @@ app.controller("suttaController", function($scope, $http, $routeParams, $sce, $l
 
         if($scope.editButtons[field] == "Save"){
             $scope.editButtons[field] = "Edit";
+        }
+    };
+
+    $scope.removeTag = function(tag){
+        var idx = $scope.currentSutta.tags.indexOf(tag);
+        if(idx >= 0){
+            $scope.currentSutta.tags.splice(idx, 1);
         }
     };
 
@@ -371,5 +382,19 @@ app.directive('syncFocusWith', function($timeout, $rootScope) {
 
             });
         }
+    };
+});
+
+app.directive('enterPressed', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.enterPressed);
+                });
+
+                event.preventDefault();
+            }
+        });
     };
 });

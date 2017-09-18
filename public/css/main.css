@@ -71,6 +71,14 @@ textarea{
     width: 30em;
 }
 
+.deleteTag{
+    position: relative;
+    right: 8px;
+    bottom: 7px;
+
+
+}
+
 .valign{
     vertical-align: middle;
 }
@@ -114,6 +122,9 @@ textarea{
 }
 .middle{
     vertical-align: middle;
+}
+.valign-bottom{
+    vertical-align: bottom;
 }
 
 .panel > .panel-heading {

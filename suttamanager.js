@@ -118,6 +118,8 @@ app.get('/getAllTags', function(req, res){
     });
 });
 
+
+
 app.post('/', function (req, res) {
     console.log(JSON.stringify(req.body));
     var id = req.body.id;
@@ -128,6 +130,9 @@ app.post('/', function (req, res) {
 
     suttaDb.get(id).then(function (doc) {
         var updatedDoc = updateFields(req.body, doc, false);
+        if(req.body.tags){
+            updateTags(req.body.tags);
+        }
         res.send("document updated");
         return suttaDb.put(updatedDoc);
     }).catch(function (err) {
@@ -259,7 +264,18 @@ function logChange(document, field){
     });
 }
 
-
+function updateTags(tags){
+    miscDb.get('allSuttaTags').then(function(doc){
+        for(var i=0; i<tags.length; i++){
+            if(! (tags[i] in doc.suttaTags)){
+                doc.suttaTags.push(tags[i]);
+            }
+        }
+        miscDb.put(doc);
+    }).catch(function(err){
+        console.log("something went wrong adding tags\n"+err);
+    });
+}
 
 var port = 4444;
 app.listen(port, function () {
